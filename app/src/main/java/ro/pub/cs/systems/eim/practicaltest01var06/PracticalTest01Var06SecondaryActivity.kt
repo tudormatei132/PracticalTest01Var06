@@ -1,10 +1,10 @@
 package ro.pub.cs.systems.eim.practicaltest01var06
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-
 class PracticalTest01Var06SecondaryActivity : Activity() {
 
     private var points : Int = 0
@@ -19,9 +19,7 @@ class PracticalTest01Var06SecondaryActivity : Activity() {
         text = findViewById<TextView>(R.id.textView)
         button = findViewById<Button>(R.id.button)
 
-        button.setOnClickListener {
-            finish()
-        }
+
 
         val intent = intent
         if (intent != null) {
@@ -30,8 +28,8 @@ class PracticalTest01Var06SecondaryActivity : Activity() {
             var field2 = intent.getStringExtra("field2")
             var field3 = intent.getStringExtra("field3")
 
-
-            if ((field1.equals(field2) || field1.equals("*") || field2.equals("*")) && (field2.equals(field3) || field2.equals("*") || field3.equals("*"))) {
+            points = 0
+            if ((field1.equals(field2) || field1.equals("*") || field2.equals("*")) && (field2.equals(field3) || field2.equals("*") || field3.equals("*")) && (field1.equals(field3) || field1.equals("*") || field3.equals("*"))) {
                 points = 100
                 if (count == 1) {
                     points /= 2
@@ -43,6 +41,13 @@ class PracticalTest01Var06SecondaryActivity : Activity() {
                 text.setText("Gained $points")
             }
 
+        }
+
+        button.setOnClickListener {
+            setResult(RESULT_OK, Intent().apply{
+                putExtra("points", points)
+            })
+            finish()
         }
 
     }

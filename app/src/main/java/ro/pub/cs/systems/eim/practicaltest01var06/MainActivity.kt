@@ -2,6 +2,7 @@ package ro.pub.cs.systems.eim.practicaltest01var06
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     private var field1 : String = ""
     private var field2 : String = ""
     private var field3 : String = ""
+
+    private var points : Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +94,27 @@ class MainActivity : AppCompatActivity() {
         field2 = set.random().toString()
         field3 = set.random().toString()
         Toast.makeText(this, "Random: $field1, $field2, $field3", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.ACTIVITY_RQ) {
+            if (resultCode == RESULT_OK) {
+                points += data!!.getIntExtra("points", 0)
+                Log.d("PUNCTE", points.toString())
+            }
+        }
+    }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("points", points)
+    }
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        points = savedInstanceState.getInt("points", 0)
+        Log.d("PUNCTE_SALVATE", points.toString())
     }
 
 
